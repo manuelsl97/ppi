@@ -905,6 +905,7 @@ h2.title {
 .single-products:hover .product-overlay {
   display:block;
   height:100%;
+  width:100%
 }
 
 

@@ -4,7 +4,7 @@
 //Copyright Jorge Vila 2015
 
 if (!isset($_SESSION)) {
-  session_start();
+ // session_start();
 }
 
 $con = mysqli_connect("localhost","root","suadmin","tiendita");

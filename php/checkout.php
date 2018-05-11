@@ -80,11 +80,9 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout.php"><i class="fa fa-user"></i> cuenta</a></li>
-								
-								<li><a href="checkout.php" class="active"><i class="fa fa-crosshairs"></i> checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								<li><a href="login.php" ><i class="fa fa-lock"></i> Login</a></li>
+								<?php
+									include("navbar.php");
+								?>
 							</ul>
 						</div>
 					</div>

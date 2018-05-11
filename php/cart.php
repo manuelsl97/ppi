@@ -80,11 +80,9 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout.php"><i class="fa fa-user"></i> cuenta</a></li>
-								
-								<li><a href="checkout.php" ><i class="fa fa-crosshairs"></i> checkout</a></li>
-								<li><a href="cart.php" class="active"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								<li><a href="login.php" ><i class="fa fa-lock"></i> Login</a></li>
+								<?php
+									include("navbar.php");
+								?>
 							</ul>
 						</div>
 					</div>
@@ -142,40 +140,61 @@
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
-							<td class="image">Item</td>
+							<td class="image">Producto</td>
 							<td class="description"></td>
-							<td class="price">Price</td>
-							<td class="quantity">Quantity</td>
+							<td class="price">Precio</td>
+							<td class="quantity">Cantidad</td>
 							<td class="total">Total</td>
 							<td></td>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td class="cart_product">
-								<a href=""><img src="../images/cart/one.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
+							<?php
+							include("../Connections/conexion.php");
+								 $elu=$_SESSION['uid'];
+								 $query_Car = mysqli_query($con,  "SELECT * FROM carrito where u_id=$elu") or die(mysqli_error($con));
+								
+								
+								while($row=$row_queryCar= mysqli_fetch_array($query_Car) ){
+									$procid=$row['p_id'];
+									$query_prod= mysqli_query($con,  "SELECT * FROM productos where id_productos=$procid") or die(mysqli_error($con));
+									$arre=mysqli_fetch_array($query_prod);
+									echo $arre['p_foto'];
+									//img src='./images/productos/". $row_DatosConsulta['p_foto']."''.$arre['p_foto'].'
+									echo '
+										<td class="cart_product">
+										
+												<img src="../images/productos/'.$arre['p_foto'].'" width ="100" heigth="200"alt="">
+											</td>
+											<td class="cart_description">
+											<h4><a href="">'.$arre['p_nombre'].'</a></h4>
+											<p>'.$arre['p_descripcion'].'</p>
+												
+												
+											</td>
+											<td class="cart_price">
+												<p>$ '.$arre['precio'].'</p>
+											</td>
+											<td class="cart_quantity">
+												<div class="cart_quantity_button">
+													<a class="cart_quantity_up" href=""> + </a>
+													<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+													<a class="cart_quantity_down" href=""> - </a>
+												</div>
+											</td>
+											<td class="cart_total">
+												<p class="cart_total_price">$59</p>
+											</td>
+											<td class="cart_delete">
+												<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+											</td>
+										</tr>
+									';
+										
+								}
+							?>
+							
 
 						<tr>
 							<td class="cart_product">

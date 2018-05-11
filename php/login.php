@@ -80,11 +80,9 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="checkout.php"><i class="fa fa-user"></i> cuenta</a></li>
-								
-								<li><a href="checkout.php"><i class="fa fa-crosshairs"></i> checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								<li><a href="login.php" class="active"><i class="fa fa-lock"></i> Login</a></li>
+								<?php
+									include("navbar.php");
+								?>
 							</ul>
 						</div>
 					</div>
@@ -136,14 +134,15 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>ya tienes cuenta?, entra</h2>
-						<form action="#">
-							<input type="email" placeholder="Email Address"  class="form-control" required="required"/>
-							<input type="password" placeholder="passwd"  class="form-control" required="required" />
+						<form action="sesion.php" method="POST">
+							<input type="email" placeholder="Email Address"  class="form-control" required="required" name="email"/>
+							<input type="password" placeholder="passwd"  class="form-control" required="required" name="pass"/>
 							<span>
 								
 							</span>
 							<button type="submit" class="btn btn-default">Login</button>
 						</form>
+
 					</div><!--/login form-->
 				</div>
 				<div class="col-sm-1">

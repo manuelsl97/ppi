@@ -1,5 +1,6 @@
 <?php
-    require "Connections/conexion.php"
+	require "Connections/conexion.php";
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,11 +90,11 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="php/checkout.php"><i class="fa fa-user"></i> cuenta</a></li>
+							
+								<?php
+									include("php/navbari.php");
+								?>
 								
-								<li><a href="php/checkout.php"><i class="fa fa-crosshairs"></i> checkout</a></li>
-								<li><a href="php/cart.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								<li><a href="php/login.php" class="active"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
 					</div>
@@ -163,9 +164,18 @@
 					<div class="features_items"><!--features_items-->
                         <h2 class="title text-center">Nuestros cortes</h2>
                        
-                        
+						<?php
+										if(isset($_POST['alc'])){
+											$iddelusuario=$_SESSION['uid'];
+												$iddelproducto=$_POST['elid'];
+												$cant=1;
+												
+												$query =mysqli_query($con,"INSERT INTO carrito(u_id, p_id, cantidad) VALUES ($iddelusuario,$iddelproducto,$cant)") or die(mysqli_error($con));
+										}
+										?>                
                         <?php 
 		//AQUI ES DONDE SE SACAN LOS DATOS, SE COMPRUEBA QUE HAY RESULTADOS
+		
 		if ($totalRows_DatosConsulta > 0) {  
 			 do { 
               		?>
@@ -173,11 +183,18 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<?php echo"<img src='./images/productos/". $row_DatosConsulta['p_foto']."' alt='' />"; ?>
+											<?php echo"<img src='./images/productos/". $row_DatosConsulta['p_foto']."' alt='' width ='425'heigth='250'/>"; ?>
 											<h2>$<?php echo $row_DatosConsulta["precio"]; ?> mx</h2>
 											<p><?php echo $row_DatosConsulta["p_nombre"]; ?></p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>agregar al carrito</a>
+											<?php
+													if(!empty($_SESSION['uname'])){
+														echo '<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>';
+													} else{
+														echo '<a href="php/login.php" "<i class="fa fa-user"></i>inicia sesion</a>';
+													}
+												?>
 										</div>
+										
 										<div class="product-overlay">
 											<div class="overlay-content">
                                                 <h2>$<?php echo $row_DatosConsulta["precio"]; ?> mx</h2>
@@ -185,7 +202,21 @@
 												<p><?php echo $row_DatosConsulta["p_descripcion"]; ?></p>
 												<p><?php echo $row_DatosConsulta["p_fabricante"]; ?></p>
 												<p><?php echo $row_DatosConsulta["p_origen"]; ?></p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<?php
+												$prueba=$row_DatosConsulta['id_productos'];
+													if(!empty($_SESSION['uname'])){
+													$una=$_SERVER['PHP_SELF'];
+														echo "<form action='$una'method='POST'>
+																<input type='hidden' name='elid' value='".$prueba."'>
+																														
+																<button type='submit' name='alc' class='btn btn-default add-to-cart' value='enviar al carrito'><i class='fa fa-shopping-cart'> enviar al carrito</i></button>
+														</form>";
+														
+														
+													} else{
+														echo '<a href="php/login.php" class="btn btn-default add-to-cart"<i class="fa fa-user"></i>inicia sesion</a>';
+													}
+												?>	
 											</div>
 										</div>
 								</div>
@@ -199,9 +230,10 @@
 			  		 } while ($row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta)); 
 		 } 
 		else
-		 { //MOSTRAR SI NO HAY RESULTADOS ?>
-                No hay resultados.
-                <?php } ?>
+		 { //MOSTRAR SI NO HAY RESULTADOS
+                echo "No hay resultados.";
+		  }
+		?>
 					
 		
 			
