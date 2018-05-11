@@ -1,0 +1,9 @@
+$porciones = explode(" ", $_GET["search"]);
+	
+	$longitud = count($porciones);
+	$extramodelo=" OR CAMPO LIKE '%".$_GET["search"] ."%'";
+	for($i=0; $i<$longitud; $i++)
+	{
+		$extramodelo.=" OR CAMPO LIKE '%".$porciones[$i] ."%'";
+	}
+//AÑADIR $extramodelo a la consulta de búsqueda

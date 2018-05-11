@@ -1,0 +1,120 @@
+/**************************************************************/
+/*ORDEN PARAMETROS*/
+/*ESTO CAMBIARÁ SEGÚN A QUÉ TABLA*/
+if (isset($_GET["valor"]))
+{
+	switch ($_GET["valor"]) {
+    case 1:
+        $parametro_orden= "idUsuario";
+        break;
+    case 2:
+        $parametro_orden= "strNombre";
+        break;
+    case 3:
+        $parametro_orden= "strEmail";
+        break;
+    case 4:
+        $parametro_orden= "intEstado";
+        break;
+    case 5:
+        $parametro_orden= "strNivel";
+        break;
+	}
+}
+else
+	$parametro_orden= "idUsuario"; //POR DEFECTO
+
+if (isset($_GET["orden"]))
+{
+	switch ($_GET["orden"]) {
+    case 1:
+        $parametro_ordena_sentido= "ASC";
+        break;
+    case 2:
+        $parametro_ordena_sentido= "DESC";
+        break;
+	}
+}
+else
+	$parametro_ordena_sentido= "ASC"; //POR DEFECTO
+
+$cadenaOrden=" ORDER BY ".$parametro_orden." ".$parametro_ordena_sentido;
+
+/*ORDEN PARAMETROS*/
+/**************************************************************/
+
+/*EN BUSCADOR O CONSULTA*/
+$consultaextendidaparaordenacion="";
+if ((isset($_GET["MM_Buscar"])) && ($_GET["MM_Buscar"]=="formbusqueda"))
+{
+	if ((isset($_GET["intNivel"])) && ($_GET["intNivel"]=="-1"))
+	{
+		$consultaextendida="";
+		
+	}
+	else
+	{
+		$consultaextendida=" AND intNivel=".$_GET["intNivel"];
+		
+	}
+	$consultaextendidaparaordenacion="&intNivel=".$_GET["intNivel"]."&MM_Buscar=formbusqueda&strBuscar=".$_GET["strBuscar"];
+	
+	$query_DatosConsulta = sprintf("SELECT * FROM tblusuario WHERE strNombre LIKE %s ".$consultaextendida." ".$cadenaOrden,
+		  GetSQLValueString("%".$_GET["strBuscar"]."%", "text"));
+	//echo $query_DatosConsulta;
+
+/*EN FUNCIONES*/
+ <?php 
+function MostrarOrdenCampo($parametroparaprocesar, $orden, $valor, $currentPage, $consultaextendidaparaordenacion){
+
+	if ((isset($orden)) && ($orden!="0"))	{
+		if ((isset($valor)) && ($valor==$parametroparaprocesar))
+		{
+			//SI HAY VALOR Y ORDEN Y ERA ESTE PARÁMETRO
+			//SI VENIA DE orden=1
+			if ($orden=="1"){
+			?>
+			<a href="<?php echo $currentPage;?>?orden=2&valor=<?php echo $parametroparaprocesar;?><?php echo $consultaextendidaparaordenacion;?>"><i class="fa fa-angle-double-down"></i></a>
+			<?php
+			}
+			if ($orden=="2"){
+			?>
+			<a href="<?php echo $currentPage;?>?orden=1&valor=<?php echo $parametroparaprocesar;?><?php echo $consultaextendidaparaordenacion;?>"><i class="fa fa-angle-double-up"></i></a>
+			<?php
+			}
+		}
+
+		else
+		{ //SI HAY VALOR Y ORDEN Y PERO NO DE ESTE PARÁMETRO
+			?>
+			<a href="<?php echo $currentPage;?>?orden=1&valor=<?php echo $parametroparaprocesar;?><?php echo $consultaextendidaparaordenacion;?>"><i class="fa fa-angle-double-up"></i></a>
+			<?php
+
+		}
+	}
+	else
+	{ //NO HAY PARÁMETROS
+		?>
+			<a href="<?php echo $currentPage;?>?orden=1&valor=<?php echo $parametroparaprocesar;?><?php echo $consultaextendidaparaordenacion;?>"><i class="fa fa-angle-double-down"></i></a>
+			<?php
+}
+
+	
+	
+}?>
+
+/*DESPUES DE CADA CAMPO*/
+<?php
+													//BLOQUE ORDENACIÓN
+													//SI HAY PARÁMETROS, HAY QUE SABER SI SON DE ORDEN
+													$parametroparaprocesar="1";
+													if (!isset($_GET["orden"])) {
+														$orden=0;
+														$valor=0;
+													}
+													else {
+														$orden=$_GET["orden"];
+														$valor=$_GET["valor"];
+													}
+													MostrarOrdenCampo($parametroparaprocesar, $orden, $valor,$currentPage, $consultaextendidaparaordenacion);
+												?>

@@ -1,0 +1,23 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//La "p" antes de localhost indica que la conexión es persistente (http://blog.ayzweb.com/tutorial/conexion-php-a-mysql-mysql_connect-o-mysql_pconnect-persistente)
+//Copyright Jorge Vila 2015
+
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+$hostname_NOMBRECONEXION = "p:localhost";
+$database_NOMBRECONEXION = "NOMBREBASEDEDATOS";
+$username_NOMBRECONEXION = "USUARIO";
+$password_NOMBRECONEXION = "CONTRASEÑA";
+$NOMBRECONEXION = mysqli_connect($hostname_NOMBRECONEXION, $username_NOMBRECONEXION, $password_NOMBRECONEXION, $database_NOMBRECONEXION);
+mysqli_set_charset($NOMBRECONEXION, 'utf8');
+
+if (is_file("includes/funciones.php")) 
+include("includes/funciones.php"); 
+else
+{
+	include("../includes/funciones.php");
+}
+?>

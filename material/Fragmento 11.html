@@ -1,0 +1,21 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//Copyright Jorge Vila 2015
+
+function FUNCIONSELECT($NOMBREVARIABLE)
+{
+	global $NOMBRECONEXION;
+	
+	$query_ConsultaFuncion = sprintf("CONSULTA_DE_SELECCION",GetSQLValueString($NOMBREVARIABLE, "int"));
+	//echo $query_ConsultaFuncion;
+	$ConsultaFuncion = mysqli_query($NOMBRECONEXION,  $query_ConsultaFuncion) or die(mysqli_error($NOMBRECONEXION));
+	$row_ConsultaFuncion = mysqli_fetch_assoc($ConsultaFuncion);
+	$totalRows_ConsultaFuncion = mysqli_num_rows($ConsultaFuncion);
+	
+	if ($totalRows_ConsultaFuncion==0) 
+		return 0;
+	echo $row_ConsultaFuncion["CAMPO"];
+	mysqli_free_result($ConsultaFuncion);
+}
+
+?>

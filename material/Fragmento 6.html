@@ -1,0 +1,27 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//Copyright Jorge Vila 2015
+
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "NOMBREFORMULARIO")) {
+
+
+  $insertSQL = sprintf("INSERT INTO NOMBRETABLE(NOMBRECMAPO) VALUES (%s, %s, %s, %s)",
+                       GetSQLValueString($NOMBREVARIABLE, "text"));
+
+  
+  $Result1 = mysqli_query($NOMBRECONEXION,  $insertSQL) or die(mysqli_error($NOMBRECONEXION));
+
+
+  $insertGoTo = "NOMBREFICHERODESPUESDEINSERTAR";
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: %s", $insertGoTo));
+}
+?>

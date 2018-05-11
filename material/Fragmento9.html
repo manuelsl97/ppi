@@ -1,0 +1,48 @@
+<script src="scriptupload.js"></script>
+
+<?php 
+//BLOQUE INSERCION IMAGEN
+//***********************
+//***********************
+//***********************									  //***********************
+//PARÁMETROS DE IMAGEN
+$nombrecampoimagen="strImagen";
+$nombrecampoimagenmostrar="strImagenpic";
+$nombrecarpetadestino="../borra/"; //carpeta destino con barra al final
+$nombrecampofichero="file1";
+$nombrecampostatus="status1";
+$nombrebarraprogreso="progressBar1";
+$maximotamanofichero="500000"; //en Bytes, "0" para ilimitado. 1000000 Bytes = 1000Kb = 1Mb
+$tiposficheropermitidos="0"; //  Por ejemplo "jpg,doc,png", separados por comas y poner "0" para permitir todos los tipos
+$limiteancho="0"; // En píxels, "0" significa cualquier tamaño permitido
+$limitealto="0"; // En píxels, "0" significa cualquier tamaño permitido
+									  
+$cadenadeparametros="'".$nombrecampoimagen."','".$nombrecampoimagenmostrar."','".$nombrecarpetadestino."','".$nombrecampofichero."','".$nombrecampostatus."','".$nombrebarraprogreso."','".$maximotamanofichero."','".$tiposficheropermitidos."','".$limiteancho."','".$limitealto."'";
+
+//$cadenadeparametros="";
+
+									  
+									  ?>
+<div class="form-group">
+	<label>Imagen</label>
+	<input class="form-control"  name="<?php echo $nombrecampoimagen;?>" id="<?php echo $nombrecampoimagen;?>">
+</div> 
+<div class="form-group">
+	<div class="row">
+		<div class="col-lg-6">
+			<input type="file" name="<?php echo $nombrecampofichero;?>" id="<?php echo $nombrecampofichero;?>"><br>
+		</div>
+		<div class="col-lg-6">
+			<input class="form-control" type="button" value="Subir Fichero" onclick="uploadFile(<?php echo $cadenadeparametros;?>)">
+		</div>
+	</div>
+	<progress id="<?php echo $nombrebarraprogreso;?>" value="0" max="100" style="width:100%;"></progress>
+	<h5 id="<?php echo $nombrecampostatus;?>"></h5>
+	<img src="" alt="" id="<?php echo $nombrecampoimagenmostrar;?>">
+</div>   
+<?php /*?>
+//***********************
+//***********************
+//***********************									  //***********************
+// FIN BLOQUE INSERCION IMAGEN
+<?php */?>     

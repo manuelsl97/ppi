@@ -1,0 +1,34 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//Copyright Jorge Vila 2015
+
+$variable_Consulta = "0";
+if (isset($VARIABLE)) {
+  $variable_Consulta = $VARIABLE;
+}
+
+$query_DatosConsulta = sprintf("SELECT * FROM NOMBRETABLE WHERE NOMBRECAMPO = %s ORDER BY NOMBRECAMPOFECHA DESC", GetSQLValueString($variable_Consulta, "int"));
+$DatosConsulta = mysqli_query($NOMBRECONEXION,  $query_DatosConsulta) or die(mysqli_error($NOMBRECONEXION));
+$row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta);
+$totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
+
+//FINAL DE LA PARTE SUPERIOR
+?>
+              <?php 
+		//AQUI ES DONDE SE SACAN LOS DATOS, SE COMPRUEBA QUE HAY RESULTADOS
+		if ($totalRows_DatosConsulta > 0) {  
+			 do { 
+              		...instrucciones para mostrar...
+			echo $row_DatosConsulta["NOMBRECAMPO"];
+                  
+              		 } while ($row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta)); 
+		 } 
+		else
+		 { //MOSTRAR SI NO HAY RESULTADOS ?>
+                No hay resultados.
+                <?php } ?>
+
+<?php
+//AÑADIR AL FINAL DE LA PÁGINA
+mysqli_free_result($DatosConsulta);
+?>

@@ -1,0 +1,61 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//Copyright Jorge Vila 2015
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+$loginFormAction = $_SERVER['PHP_SELF'];
+if (isset($_GET['accesscheck'])) {
+  $_SESSION['PrevUrl'] = $_GET['accesscheck'];
+}
+
+function mysqli_result($res, $row, $field=0) { 
+    $res->data_seek($row); 
+    $datarow = $res->fetch_array(); 
+    return $datarow[$field]; 
+}
+
+if (isset($_POST['NOMBRECAMPOEMAIL'])) {
+  $loginUsername=$_POST['NOMBRECAMPOEMAIL'];
+  //ATENCIÓN USAMOS MD5 para guardar la contraseña.
+  $password=md5($_POST['NOMBRECAMPOPASSWORD']);
+  $MM_fldUserAuthorization = "NOMBRECAMPONIVEL";
+  $MM_redirectLoginSuccess = "index.php";
+  $MM_redirectLoginFailed = "error.php";
+  $MM_redirecttoReferrer = false;
+  
+  	
+  $LoginRS__query=sprintf("SELECT NOMBRECAMPOID, NOMBRECAMPOEMAIL, NOMBRECAMPOPASSWORD, NOMBRECAMPONIVEL FROM NOMBRETABLEUSUARIO WHERE NOMBRECAMPOEMAIL=%s AND NOMBRECAMPOPASSWORD=%s AND NOMBRECAMPOESTADO=1",
+  GetSQLValueString($loginUsername, "text"), GetSQLValueString($password, "text")); 
+   
+  $LoginRS = mysqli_query($NOMBRECONEXION,  $LoginRS__query) or die(mysqli_error(NOMBRECONEXION));
+  $loginFoundUser = mysqli_num_rows($LoginRS);
+  if ($loginFoundUser) {
+    
+    $loginStrGroup  = mysqli_result($LoginRS,0,'NOMBRECAMPONIVEL');
+    
+	if (PHP_VERSION >= 5.1) {session_regenerate_id(true);} else {session_regenerate_id();}
+    //declare two session variables and assign them
+    $_SESSION['MM_Username'] = $loginUsername;
+    $_SESSION['MM_UserGroup'] = $loginStrGroup;	 
+    $_SESSION['NOMBREWEB_UserId'] = mysqli_result($LoginRS,0,'NOMBRECAMPOID');
+    $_SESSION['NOMBREWEB_Mail'] = mysqli_result($LoginRS,0,'NOMBRECAMPOEMAIL');
+    $_SESSION['NOMBREWEB_Nivel'] = mysqli_result($LoginRS,0,'NOMBRECAMPONIVEL');
+	ContabilizarAcceso($_SESSION['NOMBREWEB_UserId']);
+	
+	/* DESCOMENTAR SOLO SI SE USA EL CHECK DE RECORDAR CONTRASEÑA, HABRÁ QUE USAR LA FUNCIÓN generar_cookie()
+	if ((isset($_POST["CAMPORECUERDA"])) && ($_POST["CAMPORECUERDA"]=="1"))
+	generar_cookie($_SESSION['NOMBREWEB_UserId']);
+	*/	     
+
+    if (isset($_SESSION['PrevUrl']) && false) {
+      $MM_redirectLoginSuccess = $_SESSION['PrevUrl'];	
+    }
+    header("Location: " . $MM_redirectLoginSuccess );
+  }
+  else {
+    header("Location: ". $MM_redirectLoginFailed );
+  }
+}
+?>

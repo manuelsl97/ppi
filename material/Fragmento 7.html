@@ -1,0 +1,122 @@
+<?php
+//MySQLi Fragmentos por http://www.dreamweaver-tutoriales.com
+//Copyright Jorge Vila 2015
+
+$variable_Consulta = "0";
+if (isset($VARIABLE)) {
+  $variable_Consulta = $VARIABLE;
+}
+
+/**************************************************************/
+/**********************************         PAGINACION         /
+/**************************************************************/
+
+			
+            $currentPage = $_SERVER["PHP_SELF"];
+            
+            $maxRows_DatosConsulta = 10; // Numero de registros por pagina
+            $pageNum_DatosConsulta = 0;  // Seleccion de página actual
+            $interval_page = 4; // desde la pagina actual - este valor hasta la pagina actual + este valor
+            
+            if (isset($_GET['pageNum_DatosConsulta'])) {
+              $pageNum_DatosConsulta = $_GET['pageNum_DatosConsulta'];
+            }
+            $startRow_DatosConsulta = $pageNum_DatosConsulta * $maxRows_DatosConsulta;
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+
+$query_DatosConsulta = sprintf("SELECT * FROM NOMBRETABLE WHERE NOMBRECAMPO = %s ORDER BY NOMBRECAMPOFECHA DESC", GetSQLValueString($variable_Consulta, "int"));
+$query_limit_DatosConsulta = sprintf("%s LIMIT %d, %d", $query_DatosConsulta, $startRow_DatosConsulta, $maxRows_DatosConsulta);
+
+$DatosConsulta = mysqli_query($NOMBRECONEXION,  $query_limit_DatosConsulta) or die(mysqli_error($NOMBRECONEXION));
+$row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta);
+$totalRows_DatosConsulta = mysqli_num_rows($DatosConsulta);
+
+/**************************************************************/
+/**********************************         PAGINACION         /
+/**************************************************************/
+            if (isset($_GET['totalRows_DatosConsulta'])) {
+              $totalRows_DatosConsulta = $_GET['totalRows_DatosConsulta'];
+            } else {
+              $all_DatosConsulta = mysqli_query($NOMBRECONEXION,  $query_DatosConsulta);
+              $totalRows_DatosConsulta = mysqli_num_rows($all_DatosConsulta);
+            }
+            $totalPages_DatosConsulta = ceil($totalRows_DatosConsulta/$maxRows_DatosConsulta)-1;
+            
+            
+            
+            $queryString_DatosConsulta = "";
+            if (!empty($_SERVER['QUERY_STRING'])) {
+              $params = explode("&", $_SERVER['QUERY_STRING']);
+              $newParams = array();
+              foreach ($params as $param) {
+                if (stristr($param, "pageNum_DatosConsulta") == false && 
+                    stristr($param, "totalRows_DatosConsulta") == false) {
+                  array_push($newParams, $param);
+                }
+              }
+              if (count($newParams) != 0) {
+                $queryString_DatosConsulta = "&" . htmlentities(implode("&", $newParams));
+              }
+            }
+            $queryString_DatosConsulta = sprintf("&totalRows_DatosConsulta=%d%s", $totalRows_DatosConsulta, $queryString_DatosConsulta);
+/*************************************************************/
+/*************************************************************/
+/*************************************************************/
+//FINAL DE LA PARTE SUPERIOR
+?>
+
+              <?php 
+		//AQUI ES DONDE SE SACAN LOS DATOS, SE COMPRUEBA QUE HAY RESULTADOS
+		if ($totalRows_DatosConsulta > 0) {  
+			 do { 
+              		//...instrucciones para mostrar...
+			echo $row_DatosConsulta["NOMBRECAMPO"];
+                  
+              		 } while ($row_DatosConsulta = mysqli_fetch_assoc($DatosConsulta)); 
+?>
+<!-- inicio paginacion--> 
+            <ul class="pagination">
+		<?php if ($pageNum_DatosConsulta > 0) { // Show if not first page ?>
+			<li><a href="<?php printf("%s?pageNum_DatosConsulta=%d%s", $currentPage, 0, $queryString_DatosConsulta); ?>" title="Primero">Primero</a></li>
+		<?php } // Show if not first page ?>
+		<?php if ($pageNum_DatosConsulta > 0) { // Show if not first page ?>
+                	<li><a href="<?php printf("%s?pageNum_DatosConsulta=%d%s", $currentPage, max(0, $pageNum_DatosConsulta - 1), $queryString_DatosConsulta); ?>" title="Anterior">&laquo;</a></li> 								
+		<?php } // Show if not first page 
+                if ($pageNum_DatosConsulta-$interval_page<1){
+		 $inicio = 0;
+		 } else{
+		 $inicio = $pageNum_DatosConsulta-$interval_page;
+		 }
+		 if ($pageNum_DatosConsulta+$interval_page>=$totalPages_DatosConsulta){
+			$final = $totalPages_DatosConsulta;
+			} else{
+			 $final = $pageNum_DatosConsulta+$interval_page;
+			}
+			for ($pagina=$inicio; $pagina<=$final; ++$pagina){
+				if ($pagina==$pageNum_DatosConsulta){
+					$clase = "active";
+				} 
+				else 
+				{
+					$clase = "";
+				}?>
+				<li class="<?php echo $clase; ?>"><a href="<?php printf("%s?pageNum_DatosConsulta=%d%s", $currentPage, min($totalPages_DatosConsulta,$pagina), $queryString_DatosConsulta); ?>"  title="<?php echo $pagina+1; ?>"><?php echo $pagina+1; ?></a></li>				<?php }?>
+                        <?php if ($pageNum_DatosConsulta < $totalPages_DatosConsulta) { // Show if not last page ?>
+			<li class="disabled"><a href="#">...</a></li>								
+			<li><a href="<?php printf("%s?pageNum_DatosConsulta=%d%s", $currentPage, min($totalPages_DatosConsulta, $pageNum_DatosConsulta + 1), $queryString_DatosConsulta); ?>" title="Siguiente">&raquo;</a></li>									<?php } // Show if not last page ?>
+			<?php if ($pageNum_DatosConsulta < $totalPages_DatosConsulta) { // Show if not last page ?>							<li><a href="<?php printf("%s?pageNum_DatosConsulta=%d%s", $currentPage, $totalPages_DatosConsulta, $queryString_DatosConsulta); ?>" title="Ultimo">Último</a></li>							
+			<?php } // Show if not last page ?>       
+	</ul>
+			<!-- final paginacion-->
+		 } 
+		else
+		 { //MOSTRAR SI NO HAY RESULTADOS ?>
+                No hay resultados.
+                <?php } ?>
+
+<?php
+//AÑADIR AL FINAL DE LA PÁGINA
+mysqli_free_result($DatosConsulta);
+?>

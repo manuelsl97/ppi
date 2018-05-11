@@ -1,0 +1,14 @@
+onSubmit="javascript:return validarformularioxxxx();"
+
+<div class="alert alert-danger oculto" role="alert" id="avisobuscador1"><span class="glyphicon glyphicon-remove" ></span> Necesitas poner una fecha de entrada.</div>
+
+function validarformularioxxxx()
+{
+    valid = true;
+	$("#avisobuscador1").hide("slow");
+	if (document.buscador.FDesde.value == ""){
+		$("#avisobuscador1").show("slow");
+	    valid = false;
+	}
+	return valid;
+}
