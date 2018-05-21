@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,27 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Login | E-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-	<link href="css/main.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
+    <title>datos | Meat-Shopper</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prettyPhoto.css" rel="stylesheet">
+    <link href="../css/price-range.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+	<link href="../css/main.css" rel="stylesheet">
+	<link href="../css/responsive.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
     <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../images/ico/apple-touch-icon-57-precomposed.png">
 </head><!--/head-->
 
 <body>
-	<header id="header"><!--header-->
+<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
 				<div class="row">
@@ -57,7 +58,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+							<a href="../index.php"><img src="../images/home/logo.png" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right">
 							<div class="btn-group">
@@ -80,11 +81,9 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> cuenta</a></li>
-								
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								<li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
+								<?php
+									include("navbar.php");
+								?>
 							</ul>
 						</div>
 					</div>
@@ -106,76 +105,82 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="prueba1.php">Home</a></li>
+								<li><a href="../index.php" >Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="prueba1.php">Products</a></li>
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html" class="active">Login</a></li> 
+                                        <li><a href="../index.php">Products</a></li>
+										<li><a href="checkout.php">Checkout</a></li> 
+										<li><a href="cart.php">Cart</a></li> 
+										<li><a href="login.php" >login</a></li> 
                                     </ul>
                                 </li> 
 								
-								<li><a href="contact-us.html">Contact</a></li>
+								<li><a href="contact-us.php" >contacto</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<h3>comprometidos contigo!</h3>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
-	
-	<section id="form"><!--form-->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-4 col-sm-offset-1">
-					<div class="login-form"><!--login form-->
-						<h2>ya tienes cuenta?, entra</h2>
-						<form action="#">
-							<input type="email" placeholder="Email Address"  class="form-control" required="required"/>
-							<input type="password" placeholder="passwd"  class="form-control" required="required" />
-							<span>
+	 
+	 <div id="contact-page" class="container">
+    	<div class="bg">
+	    	<div class="row">    		
+	    		<div class="col-sm-12">    			   			
+					<h2 class="title text-center">Datos del usuario <strong></strong></h2>    			    				    				
+					<div id="gmap" class="">
+					</div>
+				</div>			 		
+			</div>    	
+    		<div class="row">  	
+	    		<div class="col-sm-8">
+	    			<div class="contact-form">
+	    				<h2 class="title text-center">Estos son sus datos</h2>
+	    				<div class="status alert alert-success" style="display: none"></div>
+				    	<div class="contact-info">
+	    				<address>
+	    					<p>Nombre: <?php echo  $_SESSION['uname']; ?></p>
+							<p>Apellidos: <?php echo $_SESSION['apellidos'];     ?></p>
+							<p>Fecha de Nacimiento: <?php echo $_SESSION['fecha']; ?></p>
+							<p>email: <?php echo $_SESSION['fecha']; ?></p>
+                            <p>Direccion: <?php echo $_SESSION['addr']; ?></p>
+                            <p>Colonia: <?php echo $_SESSION['colonia']; ?></p>
+                            <p>ciudad: <?php echo $_SESSION['cd']; ?></p>
+                            <p>codigo postal: <?php echo $_SESSION['cp']; ?></p>
+                            <p>pais: <?php echo $_SESSION['pais'] ?></p>
+                            <p>tarjeta<?php echo $_SESSION['numtarjeta']; ?></p>
+                        </address>
+</div>
+	    			</div>
+	    		</div>
+	    		<div class="col-sm-4">
+	    			<div class="contact-info">
+	    			
+	    				<div class="social-networks">
+	    					<h2 class="title text-center">Social Networking</h2>
+							<ul>
+								<li>
+									<a href="https://www.facebook.com/BORNERGNI"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="https://twitter.com/borner_gni"><i class="fa fa-twitter"></i></a>
+								</li>
 								
-							</span>
-							<button type="submit" class="btn btn-default">Login</button>
-						</form>
-					</div><!--/login form-->
-				</div>
-				<div class="col-sm-1">
-					<h2 class="or">o</h2>
-				</div>
-				<div class="col-sm-4">
-					<div class="signup-form"><!--sign up form-->
-						<h2>Registrate!</h2>
-						<form action="php/registro.php" method="POST">
-							<input type="text" placeholder="Nombre" class="form-control" required="required" name="nombre"/>
-							<input type="text" placeholder="Apellidos" class="form-control" required="required" name="apellido"/>
-							<input type="date" placeholder="Fecha de Nacimiento" class="form-control" required="required" name="fecha"/>
-							<input type="email" placeholder="Email" class="form-control" required="required" name="email"/>
-							<input type="text" placeholder="Direccion" class="form-control" required="required" name="dir"/>
-							<input type="text" placeholder="Ciudad" class="form-control" required="required" name="cd"/>
-							<input type="text" placeholder="Colonia" class="form-control" required="required" name="col"/>
-							<input type="text" placeholder="Estado" class="form-control" required="required" name="edo"/>
-							<input type="text" placeholder="C.P." class="form-control" required="required" name="cp"/>
-							<input type="text" placeholder="Pais" class="form-control" required="required" name="pais"/>
-							<input type="text" placeholder="Tarjeta" class="form-control" required="required" name="tarjeta"/>
-							<input type="password" placeholder="Password"class="form-control" required="required" name="pwd"/>
-							<button type="submit" class="btn btn-default">Signup</button>
-						
-						</form>
-					</div><!--/sign up form-->
-				</div>
-			</div>
-		</div>
-	</section><!--/form-->
+							</ul>
+	    				</div>
+	    			</div>
+    			</div>    			
+	    	</div>  
+    	</div>	
+    </div><!--/#contact-page-->
 	
-	
-	<footer id="footer"><!--Footer-->
+    <footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
@@ -203,9 +208,12 @@
 
   
     <script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="js/gmaps.js"></script>
+	<script src="js/contact.js"></script>
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
 </body>

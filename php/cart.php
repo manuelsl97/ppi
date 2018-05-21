@@ -13,6 +13,7 @@
     <link href="../css/animate.css" rel="stylesheet">
 	<link href="../css/main.css" rel="stylesheet">
 	<link href="../css/responsive.css" rel="stylesheet">
+
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -145,6 +146,7 @@
 							<td class="price">Precio</td>
 							<td class="quantity">Cantidad</td>
 							<td class="total">Total</td>
+							<td class="borrar">borrar</td>
 							<td></td>
 						</tr>
 					</thead>
@@ -152,20 +154,30 @@
 						<tr>
 							<?php
 							include("../Connections/conexion.php");
-								 $elu=$_SESSION['uid'];
-								 $query_Car = mysqli_query($con,  "SELECT * FROM carrito where u_id=$elu") or die(mysqli_error($con));
-								
+							error_reporting(0);	 
+							$elu=$_SESSION['uid'];
+							
+							
+								 $query_Car = mysqli_query($con,  "SELECT * FROM carrito where u_id='$elu'") or die(mysqli_error($con));
+								 $pagar=0;
 								
 								while($row=$row_queryCar= mysqli_fetch_array($query_Car) ){
 									$procid=$row['p_id'];
-									$query_prod= mysqli_query($con,  "SELECT * FROM productos where id_productos=$procid") or die(mysqli_error($con));
+									$canti=$row['cantidad'];
+									$idcar=$row['id_carrito'];
+									$query_prod= mysqli_query($con,  "SELECT * FROM productos where id_productos='$procid'") or die(mysqli_error($con));
 									$arre=mysqli_fetch_array($query_prod);
-									echo $arre['p_foto'];
+									
+									//echo $arre['p_foto'];
 									//img src='./images/productos/". $row_DatosConsulta['p_foto']."''.$arre['p_foto'].'
+									
+							
+							
+									echo'';
 									echo '
 										<td class="cart_product">
-										
-												<img src="../images/productos/'.$arre['p_foto'].'" width ="100" heigth="200"alt="">
+										<form action="cart.php" method="POST">
+												<img src="../images/productos/'.$arre['p_foto'].'" width ="50%" heigth="100%"alt="">
 											</td>
 											<td class="cart_description">
 											<h4><a href="">'.$arre['p_nombre'].'</a></h4>
@@ -178,74 +190,48 @@
 											</td>
 											<td class="cart_quantity">
 												<div class="cart_quantity_button">
-													<a class="cart_quantity_up" href=""> + </a>
-													<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-													<a class="cart_quantity_down" href=""> - </a>
+												
+													
+													<input  class="cart_quantity_input" type="text" d="cant" name="quantity" value="'.$canti.'" autocomplete="off" size="2" >
+
+													
 												</div>
 											</td>
 											<td class="cart_total">
-												<p class="cart_total_price">$59</p>
+												<p class="cart_total_price">$'.$arre['precio']*$canti.'</p>
 											</td>
-											<td class="cart_delete">
-												<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+											<input   type="hidden"  name="id" value="'.$idcar.'" autocomplete="off" >
+											
+											<td class="borrar">
+											<button type="submit" class="btn btn-default update">actualizar</button>
+											</form>
 											</td>
 										</tr>
 									';
-										
+									
+									$pagar+=$arre['precio']*$canti;	
 								}
+								echo'';
+								/*
+								*/
+							?>
+							<?php
+							error_reporting(0);
+								$cant=$_POST["quantity"];
+								$pid=$_POST["id"];
+								
+								
+								if($cant==0){
+									$delete_carrito=mysqli_query($con,"DELETE FROM carrito WHERE id_carrito='$pid'") or die(mysqli_error($con));
+									header("location:cart.php");
+								}
+								else{
+									$update_carrito=mysqli_query($con,"UPDATE carrito SET cantidad='$cant' WHERE id_carrito='$pid'") or die(mysqli_error($con));
+									header("location:cart.php");
+								}
+								
 							?>
 							
-
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/two.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
-						<tr>
-							<td class="cart_product">
-								<a href=""><img src="images/cart/three.png" alt=""></a>
-							</td>
-							<td class="cart_description">
-								<h4><a href="">Colorblock Scuba</a></h4>
-								<p>Web ID: 1089772</p>
-							</td>
-							<td class="cart_price">
-								<p>$59</p>
-							</td>
-							<td class="cart_quantity">
-								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
-								</div>
-							</td>
-							<td class="cart_total">
-								<p class="cart_total_price">$59</p>
-							</td>
-							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -254,75 +240,17 @@
 
 	<section id="do_action">
 		<div class="container">
-			<div class="heading">
-				<h3>What would you like to do next?</h3>
-				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="chose_area">
-						<ul class="user_option">
-							<li>
-								<input type="checkbox">
-								<label>Use Coupon Code</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Use Gift Voucher</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Estimate Shipping & Taxes</label>
-							</li>
-						</ul>
-						<ul class="user_info">
-							<li class="single_field">
-								<label>Country:</label>
-								<select>
-									<option>United States</option>
-									<option>Bangladesh</option>
-									<option>UK</option>
-									<option>India</option>
-									<option>Pakistan</option>
-									<option>Ucrane</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-								
-							</li>
-							<li class="single_field">
-								<label>Region / State:</label>
-								<select>
-									<option>Select</option>
-									<option>Dhaka</option>
-									<option>London</option>
-									<option>Dillih</option>
-									<option>Lahore</option>
-									<option>Alaska</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-							
-							</li>
-							<li class="single_field zip-field">
-								<label>Zip Code:</label>
-								<input type="text">
-							</li>
-						</ul>
-						<a class="btn btn-default update" href="">Get Quotes</a>
-						<a class="btn btn-default check_out" href="">Continue</a>
-					</div>
-				</div>
+			
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <span><?php echo $pagar ?></span></li>
+							<li>Eco Tax <span>$200</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <span>$ <?php echo $pagar+200 ?></span></li>
 						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+						
+							<a class="btn btn-default check_out" href="checkout.php">Check Out</a>
 					</div>
 				</div>
 			</div>

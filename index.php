@@ -183,7 +183,7 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<?php echo"<img src='./images/productos/". $row_DatosConsulta['p_foto']."' alt='' width ='425'heigth='250'/>"; ?>
+											<?php echo"<img src='./images/productos/". $row_DatosConsulta['p_foto']."' alt='' width ='100%' heigth='100%'/>"; ?>
 											<h2>$<?php echo $row_DatosConsulta["precio"]; ?> mx</h2>
 											<p><?php echo $row_DatosConsulta["p_nombre"]; ?></p>
 											<?php

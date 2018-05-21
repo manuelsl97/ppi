@@ -52,7 +52,7 @@ $query_DatosMarcas = sprintf("SELECT * FROM tblmarca WHERE intEstado=1 ORDER BY 
 $DatosMarcas = mysqli_query($con,  $query_DatosMarcas) or die(mysqli_error($con));
 $row_DatosMarcas = mysqli_fetch_assoc($DatosMarcas);
 $totalRows_DatosMarcas = mysqli_num_rows($DatosMarcas);
-
+*/
 
 ?>
              
